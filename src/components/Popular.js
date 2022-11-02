@@ -15,20 +15,22 @@ class Popular extends React.Component {
         fetchPopularRepos(this.state.selectedLanguages, this.getPopularReposCb)
     }
 
-    getPopularReposCb = (data) => {
+    getPopularReposCb = (data, language) => {
         this.setState({
             repos: data,
             loading: false,
+            selectedLanguages: language,
         });
     }
 
 
     updateLanguage = (language) => {
-        this.setState({
-            selectedLanguages: language,
-            loading: true,
-        });
-        fetchPopularRepos(language, this.getPopularReposCb);
+        if (language !== this.state.selectedLanguages) {
+            this.setState({
+                loading: true,
+            });
+            fetchPopularRepos(language, this.getPopularReposCb);
+        }
     }
 
     render() {
