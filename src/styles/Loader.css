@@ -1,0 +1,74 @@
+:root {
+    --primary-color: #d0021b;
+    --secondary-color: #0a0a0a;;
+}
+
+.loader {
+    position: fixed;
+    background-color: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+
+.loader__wrap {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.loader-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+.loader-circle1 {
+    animation: animation1 2s linear infinite;
+}
+.loader-circle2 {
+    animation: animation2 2s linear infinite;
+}
+.loader-circle3 {
+    animation: animation3 2s linear infinite;
+}
+.loader-circle4 {
+    animation: animation4 2s linear infinite;
+}
+
+@keyframes animation1 {
+    0%   {background-color:var(--secondary-color); }
+    25%  {background-color:var(--primary-color);}
+    50%  {background-color: var(--primary-color);}
+    75%  {background-color:var(--primary-color); }
+    100% {background-color: var(--primary-color); }
+}
+
+@keyframes animation2 {
+    0%   {background-color: var(--primary-color); }
+    25%  {background-color: var(--secondary-color);}
+    50%  {background-color: var(--primary-color);}
+    75%  {background-color:var(--primary-color); }
+    100% {background-color: var(--primary-color); }
+}
+
+@keyframes animation3 {
+    0%   {background-color: var(--primary-color); }
+    25%  {background-color: var(--primary-color);}
+    50%  {background-color: var(--secondary-color);}
+    75%  {background-color:var(--primary-color); }
+    100% {background-color: var(--primary-color); }
+}
+
+@keyframes animation4 {
+    0%   {background-color: var(--primary-color); }
+    25%  {background-color: var(--primary-color);}
+    50%  {background-color: var(--primary-color);}
+    75%  {background-color:var(--secondary-color); }
+    100% {background-color: var(--primary-color); }
+}

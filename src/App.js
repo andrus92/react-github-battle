@@ -4,16 +4,22 @@ import Home from './components/Home';
 import Popular from './components/Popular';
 import Battle from './components/Battle';
 import NotFound from './components/NotFound';
+import Nav from './components/Nav';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='popular' element={<Popular />} />
-        <Route path='battle' element={<Battle />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
+      <div className='container'>
+        <Nav />
+
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='popular' element={<Popular />} />
+          <Route path='battle' element={<Battle />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+        
+      </div>
     </BrowserRouter>
   );
 }
