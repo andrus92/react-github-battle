@@ -1,54 +1,46 @@
 import React from "react";
 import Repos from "./Repos";
 import Tabs from "./Tabs";
-import { fetchPopularRepos } from './api.js'; 
 import Loader from "./Loader";
+import { fetchPopularRepos } from './api.js'; 
+import { useState, useEffect } from "react";
 
-class Popular extends React.Component {
-    state = {
-        selectedLanguages: 'All',
-        repos: [],
-        loading: true
+const Popular = (props) => {
+
+    const [selectedLanguages, setSelectedLanguages] = useState('All');
+    const [repos, setRepos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchPopularRepos(selectedLanguages, getPopularReposCb)
+    }, []);
+
+    const getPopularReposCb = (data, language) => {
+        setRepos(data);
+        setLoading(false);
+        setSelectedLanguages(language);
     }
 
-    componentDidMount = () => {
-        fetchPopularRepos(this.state.selectedLanguages, this.getPopularReposCb)
-    }
-
-    getPopularReposCb = (data, language) => {
-        this.setState({
-            repos: data,
-            loading: false,
-            selectedLanguages: language,
-        });
-    }
-
-
-    updateLanguage = (language) => {
-        if (language !== this.state.selectedLanguages) {
-            this.setState({
-                loading: true,
-            });
-            fetchPopularRepos(language, this.getPopularReposCb);
+    const updateLanguage = (language) => {
+        if (language !== selectedLanguages) {
+            setLoading(true);
+            fetchPopularRepos(language, getPopularReposCb);
         }
     }
 
-    render() {
-        return (
-            <React.Fragment>
-                <Tabs 
-                    selectedLanguages={this.state.selectedLanguages}
-                    updateLanguage={this.updateLanguage}
-                />
-                <Loader loading={this.state.loading}/>
-                {this.state.repos.length 
-                    ? <Repos repos={this.state.repos} />
-                    : null
-                }
-            </React.Fragment>
-            
-        );
-    }
+    return (
+        <React.Fragment>
+            <Tabs 
+                selectedLanguages={selectedLanguages}
+                updateLanguage={updateLanguage}
+            />
+            <Loader loading={loading}/>
+            {repos.length 
+                ? <Repos repos={repos} />
+                : null
+            }
+        </React.Fragment>
+    );
 }
 
 export default Popular;
