@@ -4,25 +4,31 @@ import Tabs from "./Tabs";
 import Loader from "./Loader";
 import { fetchPopularRepos } from './api.js'; 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const Popular = (props) => {
 
-    const [selectedLanguages, setSelectedLanguages] = useState('All');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const paramLang = searchParams.get('language');
+    const stateLang = (paramLang ? paramLang : 'All' );
+
     const [repos, setRepos] = useState([]);
     const [loading, setLoading] = useState(true);
+    
+    
 
     useEffect(() => {
-        fetchPopularRepos(selectedLanguages, getPopularReposCb)
+        fetchPopularRepos(stateLang, getPopularReposCb)
     }, []);
 
-    const getPopularReposCb = (data, language) => {
+    const getPopularReposCb = (data, stateLang) => {
         setRepos(data);
         setLoading(false);
-        setSelectedLanguages(language);
+        setSearchParams({language: stateLang});
     }
 
     const updateLanguage = (language) => {
-        if (language !== selectedLanguages) {
+        if (language !== stateLang) {
             setLoading(true);
             fetchPopularRepos(language, getPopularReposCb);
         }
@@ -31,7 +37,7 @@ const Popular = (props) => {
     return (
         <React.Fragment>
             <Tabs 
-                selectedLanguages={selectedLanguages}
+                selectedLanguages={stateLang}
                 updateLanguage={updateLanguage}
             />
             <Loader loading={loading}/>
