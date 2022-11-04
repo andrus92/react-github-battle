@@ -1,11 +1,11 @@
 import './App.css';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
-import Home from './components/Home';
-import Popular from './components/Popular';
-import Battle from './components/Battle';
-import NotFound from './components/NotFound';
-import Nav from './components/Nav';
-import Results from './components/Results';
+import Home from './components/Home/Home'
+import Popular from './components/Popular/Popular';
+import Battle from './components/Battle/Battle';
+import NotFound from './components/General/NotFound';
+import Nav from './components/General/Nav';
+import Results from './components/Battle/Results';
 
 function App() {
   return (

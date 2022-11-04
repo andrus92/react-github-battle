@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import PlayerInput from "./PlayerInput"; 
+import PlayerInput from "./PlayerInput"
+import PlayerPreview from "./PlayerPreview";
 
 const Battle = () => {
 
@@ -32,7 +33,7 @@ const Battle = () => {
     }
 
     return (
-        <div>
+        <React.Fragment>
             <div className="row">
                 {!playerOneImage ?
                     <PlayerInput
@@ -40,13 +41,12 @@ const Battle = () => {
                         label='Player 1'
                         onSubmit={handleSubmit}
                     /> :
-                    <div>
-                        <div className="column">
-                            <img className="avatar" src={playerOneImage} alt="Avatar"></img>
-                            <h2 className="username">@{playerOneName}</h2>
-                            <button className="reset" onClick={() => handleReset('player1')}>Reset</button>
-                        </div>
-                    </div>
+                    <PlayerPreview
+                        userName={playerOneName}
+                        avatar={playerOneImage}
+                    >
+                        <button className="reset" onClick={() => handleReset('playerOne')}>Reset</button>
+                    </PlayerPreview>
                 }
                 
                 {!playerTwoImage ?
@@ -55,13 +55,12 @@ const Battle = () => {
                         label='Player 2'
                         onSubmit={handleSubmit}
                     /> :
-                    <div>
-                        <div className="column">
-                            <img className="avatar" src={playerTwoImage} alt="Avatar"></img>
-                            <h2 className="username">@{playerTwoName}</h2>
-                            <button className="reset" onClick={() =>handleReset('player2')}>Reset</button>
-                        </div>
-                    </div>
+                    <PlayerPreview
+                        userName={playerTwoName}
+                        avatar={playerTwoImage}
+                    >
+                        <button className="reset" onClick={() => handleReset('playerTwo')}>Reset</button>
+                    </PlayerPreview>
                 }
             </div>
             {(playerOneImage && playerTwoImage) ?
@@ -78,7 +77,7 @@ const Battle = () => {
                 </Link> :
                 null
             }
-        </div>
+        </React.Fragment>
     );
 }
 

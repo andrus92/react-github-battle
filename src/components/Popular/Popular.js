@@ -1,8 +1,8 @@
 import React from "react";
 import Repos from "./Repos";
 import Tabs from "./Tabs";
-import Loader from "./Loader";
-import { fetchPopularRepos } from './api.js'; 
+import Loader from "../Loader";
+import { fetchPopularRepos } from '../api.js'; 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
