@@ -40,9 +40,12 @@ const handleError = (error) => {
 }
 
 const getUserData = async (userName) => {
-    let profile, repos;
-    profile = await getProfile(userName);
-    repos = await getRepos(userName);
+    const profile = await getProfile(userName);
+    const repos = await getRepos(userName);
+
+    if (!profile || !repos) {
+        return null;
+    }
 
     return {
         profile,
@@ -53,8 +56,10 @@ const getUserData = async (userName) => {
 export const makeBattle = async (userName1, userName2) => {
     const user1 = await getUserData(userName1);
     const user2 = await getUserData(userName2);
-    console.log(user1, 'user1');
-    console.log(user2, 'user2');
+    
+    if (!user1 || !user2) {
+        return null;
+    }
 
     if (user1.score < user2.score) {
         return {
@@ -67,8 +72,6 @@ export const makeBattle = async (userName1, userName2) => {
         winner: user1,
         loser: user2,
     }
-
-    
 }
 
 export const fetchPopularRepos = (language, cbFunction) => {

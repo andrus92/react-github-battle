@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { makeBattle } from "../api";
 import PlayerPreview from "./PlayerPreview";
 import PlayerDetails from "./PlayerDetails";
@@ -18,33 +18,36 @@ const Results = (props) => {
     const [loserFollowers, setLoserFollowers] = useState('');
 
     const location = useLocation();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
+        
         const searchParams = new URLSearchParams(location.search);
         const playerOne = searchParams.get('playerOneName');
         const playerTwo = searchParams.get('playerTwoName');
         (async () => {
             const result = await makeBattle(playerOne, playerTwo);
+            if (!result) {
+                navigate("/nosuchuser");
+            } else {
+                setWinnerName(result.winner.profile.login);
+                setWinnerImage(`https://github.com/${result.winner.profile.login}.png?size200`);
+                setWinnerFullName(result.winner.profile.name);
+                setWinnerLocation(result.winner.profile.location);
+                setWinnerFollowers(result.winner.profile.followers);
 
-            setWinnerName(result.winner.profile.login);
-            setWinnerImage(`https://github.com/${result.winner.profile.login}.png?size200`);
-            setWinnerFullName(result.winner.profile.name);
-            setWinnerLocation(result.winner.profile.location);
-            setWinnerFollowers(result.winner.profile.followers);
+                setLoserName(result.loser.profile.login);
+                setLoserImage(`https://github.com/${result.loser.profile.login}.png?size200`);
+                setLoserFullName(result.loser.profile.name);
+                setLoserLocation(result.loser.profile.location);
+                setLoserFollowers(result.loser.profile.followers);
+            }
 
-            setLoserName(result.loser.profile.login);
-            setLoserImage(`https://github.com/${result.loser.profile.login}.png?size200`);
-            setLoserFullName(result.loser.profile.name);
-            setLoserLocation(result.loser.profile.location);
-            setLoserFollowers(result.loser.profile.followers);
-
-            console.log(result.winner.profile.login , 'winner')
-            console.log(result.loser.profile.login , 'loser')
+            
         })();
         
     }, [])
-
-    console.log()
     
     return (
         <React.Fragment>
@@ -76,13 +79,7 @@ const Results = (props) => {
                     />
                     </PlayerPreview>
                 </div>
-            
-           
-            
-
             </div>
-            
-
         </React.Fragment>
         
         
