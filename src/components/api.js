@@ -51,12 +51,25 @@ const getUserData = async (userName) => {
 }
 
 export const makeBattle = async (userName1, userName2) => {
-    const a = await getUserData(userName1);
-    console.log(a)
-    //const b = await getUserData(userName2);
-}
+    const user1 = await getUserData(userName1);
+    const user2 = await getUserData(userName2);
+    console.log(user1, 'user1');
+    console.log(user2, 'user2');
 
-// const sortPlayers = ()
+    if (user1.score < user2.score) {
+        return {
+            winner: user2,
+            loser: user1,
+        }
+    }
+    
+    return {
+        winner: user1,
+        loser: user2,
+    }
+
+    
+}
 
 export const fetchPopularRepos = (language, cbFunction) => {
     fetch(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
