@@ -3,8 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { makeBattle } from "../api";
 import PlayerPreview from "./PlayerPreview";
 import PlayerDetails from "./PlayerDetails";
+import Loader from "../Loader";
 
 const Results = (props) => {
+
+    const [loading, setLoading] = useState(true);
+
     const [winnerName, setWinnerName] = useState('');
     const [winnerImage, setWinnerImage] = useState('');
     const [winnerFullName, setWinnerFullName] = useState('');
@@ -22,6 +26,7 @@ const Results = (props) => {
 
 
     useEffect(() => {
+        setLoading(true);
         
         const searchParams = new URLSearchParams(location.search);
         const playerOne = searchParams.get('playerOneName');
@@ -42,44 +47,51 @@ const Results = (props) => {
                 setLoserFullName(result.loser.profile.name);
                 setLoserLocation(result.loser.profile.location);
                 setLoserFollowers(result.loser.profile.followers);
-            }
 
-            
+                setLoading(false);
+            }
         })();
+        
         
     }, [])
     
     return (
         <React.Fragment>
-            <div className="row">
-                <div className="column">
-                    <h1>Winner</h1>
-                    <PlayerPreview
-                        username={winnerName}
-                        avatar={winnerImage}
-                    >
-                        <PlayerDetails 
-                            fullName={winnerFullName}
-                            location={winnerLocation}
-                            followers={winnerFollowers}
-                        />
-                    </PlayerPreview>
-                </div>
+            <Loader loading={loading}/>
+            {!loading ?
+                <div className="row">
+                    <div className="column">
+                        <h1>Winner</h1>
+                        <PlayerPreview
+                            username={winnerName}
+                            avatar={winnerImage}
+                        >
+                            <PlayerDetails 
+                                fullName={winnerFullName}
+                                location={winnerLocation}
+                                followers={winnerFollowers}
+                            />
+                        </PlayerPreview>
+                    </div>
 
-                <div className="column">
-                <h1>Loser</h1>
-                    <PlayerPreview
-                        username={loserName}
-                        avatar={loserImage}
-                    >
-                    <PlayerDetails 
-                        fullName={loserFullName}
-                        location={loserLocation}
-                        followers={loserFollowers}
-                    />
-                    </PlayerPreview>
+                    <div className="column">
+                    <h1>Loser</h1>
+                        <PlayerPreview
+                            username={loserName}
+                            avatar={loserImage}
+                        >
+                        <PlayerDetails 
+                            fullName={loserFullName}
+                            location={loserLocation}
+                            followers={loserFollowers}
+                        />
+                        </PlayerPreview>
+                    </div>
                 </div>
-            </div>
+                :
+                null
+            }
+            
         </React.Fragment>
         
         
