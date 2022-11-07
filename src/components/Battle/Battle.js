@@ -42,7 +42,7 @@ const Battle = () => {
                         onSubmit={handleSubmit}
                     /> :
                     <PlayerPreview
-                        userName={playerOneName}
+                        username={playerOneName}
                         avatar={playerOneImage}
                     >
                         <button className="reset" onClick={() => handleReset('playerOne')}>Reset</button>
@@ -56,7 +56,7 @@ const Battle = () => {
                         onSubmit={handleSubmit}
                     /> :
                     <PlayerPreview
-                        userName={playerTwoName}
+                        username={playerTwoName}
                         avatar={playerTwoImage}
                     >
                         <button className="reset" onClick={() => handleReset('playerTwo')}>Reset</button>
