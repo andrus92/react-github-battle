@@ -14,30 +14,32 @@ const Popular = (props) => {
 
     const [repos, setRepos] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [language, setLanguage] = useState(stateLang);
     
     
 
     useEffect(() => {
-        fetchPopularRepos(stateLang, getPopularReposCb)
+        fetchPopularRepos(language, getPopularReposCb)
     }, []);
 
-    const getPopularReposCb = (data, stateLang) => {
+    const getPopularReposCb = (data, lang) => {
         setRepos(data);
         setLoading(false);
-        setSearchParams({language: stateLang});
+        setSearchParams({language: lang});
+        setLanguage(lang);
     }
 
-    const updateLanguage = (language) => {
-        if (language !== stateLang) {
+    const updateLanguage = (lang) => {
+        if (lang !== language) {
             setLoading(true);
-            fetchPopularRepos(language, getPopularReposCb);
+            fetchPopularRepos(lang, getPopularReposCb);
         }
     }
 
     return (
         <React.Fragment>
             <Tabs 
-                selectedLanguages={stateLang}
+                selectedLanguages={language}
                 updateLanguage={updateLanguage}
             />
             <Loader loading={loading}/>
