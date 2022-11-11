@@ -1,10 +1,14 @@
 import { memo } from "react";
+import { useSelector } from "react-redux";
 
 const Repos = memo((props) => {
+
+    const repos = useSelector(state => state.popularReducer.repos);
+
     console.log('REPOS');
-    return (
-        <ul className="popular-list">
-            {props.repos.map((repo, index) => {
+    const renderRepos = () => {
+        if (repos.length > 0) {
+            return repos.map((repo, index) => {
                 return (
                     <li key={repo.name} className="popular-item">
                         <div className="popular-rank">#{index +1}</div>
@@ -18,7 +22,14 @@ const Repos = memo((props) => {
                         </ul>
                     </li>  
                 )
-            })}
+            })
+        }
+        return null;
+    }
+
+    return (
+        <ul className="popular-list">
+            {renderRepos()}
         </ul>
     );
 })

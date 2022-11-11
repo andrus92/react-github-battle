@@ -74,9 +74,10 @@ export const makeBattle = async (userName1, userName2) => {
     }
 }
 
-export const fetchPopularRepos = (language, cbFunction) => {
+// export const fetchPopularRepos = (language, cbFunction) => {
+export const fetchPopularRepos = (language) => {
     fetch(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
         .then(response => response.json())
-        .then(data => cbFunction(data.items, language))
+        .then(data => data.items)
         .catch(error => handleError(error));
 }
