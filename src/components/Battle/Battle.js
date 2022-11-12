@@ -1,34 +1,50 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import PlayerInput from "./PlayerInput"
 import PlayerPreview from "./PlayerPreview";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import {
+    updatePlayerOneName,
+    updatePlayerOneImg,
+    updatePlayerTwoName,
+    updatePlayerTwoImg
+ } from "../redux/battle.actions";
 
 const Battle = () => {
 
-    const [playerOneName, setPlayerOneName] = useState('');
-    const [playerTwoName, setPlayerTwoName] = useState('');
-    const [playerOneImage, setPlayerOneImage] = useState('');
-    const [playerTwoImage, setPlayerTwoImage] = useState('');
+    const dispatch = useDispatch();
+    const playerOneName = useSelector(state => state.battleReducer.playerOneName);
+    const playerTwoName = useSelector(state => state.battleReducer.playerTwoName);
+    const playerOneImage = useSelector(state => state.battleReducer.playerOneImage);
+    const playerTwoImage = useSelector(state => state.battleReducer.playerTwoImage);
 
     const location = useLocation();
 
+    useEffect(() => {
+        dispatch(updatePlayerOneName(''));
+        dispatch(updatePlayerOneImg(''));
+        dispatch(updatePlayerTwoName(''));
+        dispatch(updatePlayerTwoImg(''));
+    }, []);
+
     const handleSubmit = (id, userName) => {
         if (id === 'playerOne') {
-            setPlayerOneName(userName);
-            setPlayerOneImage(`https://github.com/${userName}.png?size200`);
+            dispatch(updatePlayerOneName(userName));
+            dispatch(updatePlayerOneImg(`https://github.com/${userName}.png?size200`));
         } else {
-            setPlayerTwoName(userName);
-            setPlayerTwoImage(`https://github.com/${userName}.png?size200`);
+            dispatch(updatePlayerTwoName(userName));
+            dispatch(updatePlayerTwoImg(`https://github.com/${userName}.png?size200`));
         }
     }
 
     const handleReset = (id) => {
         if (id === 'playerOne') {
-            setPlayerOneName('');
-            setPlayerOneImage('');
+            dispatch(updatePlayerOneName(''));
+            dispatch(updatePlayerOneImg(''));
         } else {
-            setPlayerTwoName('');
-            setPlayerTwoImage('');
+            dispatch(updatePlayerTwoName(''));
+            dispatch(updatePlayerTwoImg(''));
         }
     }
 
