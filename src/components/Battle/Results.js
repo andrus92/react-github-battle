@@ -4,22 +4,26 @@ import { makeBattle } from "../api";
 import PlayerPreview from "./PlayerPreview";
 import PlayerDetails from "./PlayerDetails";
 import Loader from "../Loader";
+import { useSelector, useDispatch } from "react-redux";
+import { updateResults } from "../redux/battle.actions";
 
-const Results = (props) => {
+const Results = () => {
+
+    const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(true);
 
-    const [winnerName, setWinnerName] = useState('');
-    const [winnerImage, setWinnerImage] = useState('');
-    const [winnerFullName, setWinnerFullName] = useState('');
-    const [winnerLocation, setWinnerLocation] = useState('');
-    const [winnerFollowers, setWinnerFollowers] = useState('');
+    const winnerName = useSelector(state => state.battleReducer.winnerInfo.name);
+    const winnerImage = useSelector(state => state.battleReducer.winnerInfo.image);
+    const winnerFullName = useSelector(state => state.battleReducer.winnerInfo.fullName);
+    const winnerLocation = useSelector(state => state.battleReducer.winnerInfo.location);
+    const winnerFollowers = useSelector(state => state.battleReducer.winnerInfo.followers);
     
-    const [loserName, setLoserName] = useState('');
-    const [loserImage, setLoserImage] = useState('');
-    const [loserFullName, setLoserFullName] = useState('');
-    const [loserLocation, setLoserLocation] = useState('');
-    const [loserFollowers, setLoserFollowers] = useState('');
+    const loserName = useSelector(state => state.battleReducer.loserInfo.name);
+    const loserImage = useSelector(state => state.battleReducer.loserInfo.image);
+    const loserFullName = useSelector(state => state.battleReducer.loserInfo.fullName);
+    const loserLocation = useSelector(state => state.battleReducer.loserInfo.location);
+    const loserFollowers = useSelector(state => state.battleReducer.loserInfo.followers);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -31,28 +35,31 @@ const Results = (props) => {
         const searchParams = new URLSearchParams(location.search);
         const playerOne = searchParams.get('playerOneName');
         const playerTwo = searchParams.get('playerTwoName');
-        (async () => {
-            const result = await makeBattle(playerOne, playerTwo);
-            if (!result) {
-                navigate("/nosuchuser");
-            } else {
-                setWinnerName(result.winner.profile.login);
-                setWinnerImage(`https://github.com/${result.winner.profile.login}.png?size200`);
-                setWinnerFullName(result.winner.profile.name);
-                setWinnerLocation(result.winner.profile.location);
-                setWinnerFollowers(result.winner.profile.followers);
-
-                setLoserName(result.loser.profile.login);
-                setLoserImage(`https://github.com/${result.loser.profile.login}.png?size200`);
-                setLoserFullName(result.loser.profile.name);
-                setLoserLocation(result.loser.profile.location);
-                setLoserFollowers(result.loser.profile.followers);
-
-                setLoading(false);
-            }
-        })();
-        
-        
+        if (playerOne === null && playerTwo === null) {
+            navigate("/nosuchuser");
+        } else {
+            (async () => {
+                const result = await makeBattle(playerOne, playerTwo);
+                if (!result) {
+                    navigate("/nosuchuser");
+                } else {
+                    dispatch(updateResults({
+                        winnerName: result.winner.profile.login,
+                        winnerImage: `https://github.com/${result.winner.profile.login}.png?size200`,
+                        winnerFullName: result.winner.profile.name,
+                        winnerLocation: result.winner.profile.location,
+                        winnerFollowers: result.winner.profile.followers,
+                        loserName: result.loser.profile.login,
+                        loserImage: `https://github.com/${result.loser.profile.login}.png?size200`,
+                        loserFullName: result.loser.profile.name,
+                        loserLocation: result.loser.profile.location,
+                        loserFollowers: result.loser.profile.followers,
+                    }));
+    
+                    setLoading(false);
+                }
+            })();
+        }
     }, [])
     
     return (
@@ -90,11 +97,8 @@ const Results = (props) => {
                 </div>
                 :
                 null
-            }
-            
-        </React.Fragment>
-        
-        
+            }   
+        </React.Fragment> 
     );
 }
 

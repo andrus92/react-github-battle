@@ -2,7 +2,8 @@ import {
     UPDATE_PLAYER_ONE_NAME,
     UPDATE_PLAYER_ONE_IMG,
     UPDATE_PLAYER_TWO_NAME,
-    UPDATE_PLAYER_TWO_IMG
+    UPDATE_PLAYER_TWO_IMG,
+    UPDATE_RESULTS
 } from './battle.constants';
 
 export const updatePlayerOneName = (payload) => ({
@@ -22,5 +23,10 @@ export const updatePlayerTwoName = (payload) => ({
 
 export const updatePlayerTwoImg = (payload) => ({
     type: UPDATE_PLAYER_TWO_IMG,
+    payload,
+})
+
+export const updateResults = (payload) => ({
+    type: UPDATE_RESULTS,
     payload,
 })

@@ -5,7 +5,6 @@ const Repos = memo((props) => {
 
     const repos = useSelector(state => state.popularReducer.repos);
 
-    console.log('REPOS');
     const renderRepos = () => {
         if (repos.length > 0) {
             return repos.map((repo, index) => {

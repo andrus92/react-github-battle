@@ -2,7 +2,8 @@ import {
     UPDATE_PLAYER_ONE_NAME,
     UPDATE_PLAYER_ONE_IMG,
     UPDATE_PLAYER_TWO_NAME,
-    UPDATE_PLAYER_TWO_IMG
+    UPDATE_PLAYER_TWO_IMG,
+    UPDATE_RESULTS,
 } from './battle.constants';
 
 const initialState = {
@@ -10,6 +11,20 @@ const initialState = {
     playerOneImage: '',
     playerTwoName: '',
     playerTwoImage: '',
+    winnerInfo: {
+        name: '',
+        image: '',
+        fullName: '',
+        location: '',
+        followers: '',
+    },
+    loserInfo: {
+        name: '',
+        image: '',
+        fullName: '',
+        location: '',
+        followers: '',
+    },
 }
 
 export const battleReducer = (state = initialState, action) => {
@@ -36,6 +51,26 @@ export const battleReducer = (state = initialState, action) => {
             return {
                 ...state,
                 playerTwoImage: action.payload,
+        }
+
+        case UPDATE_RESULTS: {
+            return {
+                ...state,
+                winnerInfo: {
+                    name: action.payload.winnerName,
+                    image: action.payload.winnerImage,
+                    fullName: action.payload.winnerFullName,
+                    location: action.payload.winnerLocation,
+                    followers: action.payload.winnerFollowers,
+                },
+                loserInfo: {
+                    name: action.payload.loserName,
+                    image: action.payload.loserImage,
+                    fullName: action.payload.loserFullName,
+                    location: action.payload.loserLocation,
+                    followers: action.payload.loserFollowers,
+                }
+            }
         }
 
         default:

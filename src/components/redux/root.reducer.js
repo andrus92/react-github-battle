@@ -1,4 +1,4 @@
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 import { popularReducer } from "./popular.reducer";
 import { battleReducer } from "./battle.reducer";
 
